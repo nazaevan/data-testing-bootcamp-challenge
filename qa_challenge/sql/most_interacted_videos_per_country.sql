@@ -9,12 +9,13 @@ with _interactions as (
     select country_code,
         video_id,
         total_interactions,
-        row_number() over (partition by country_code order by total_interactions desc) _ranking_no
+        row_number() over (partition by total_interactions order by country_code asc) _ranking_no
     from _interactions
 )
+
 select country_code,
     video_id,
     total_interactions
 from _ranking
-where _ranking_no >= 2
-order by country_code
+where _ranking_no <= 3
+order by country_code asc
